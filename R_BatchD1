@@ -1,0 +1,21 @@
+dir.create("D:/Music/Schumann1")
+
+setwd("D:/Music/Schumann1")
+
+l1 <- (length(matched[[1]])/2)+6
+l2 <- length(matched[[1]])
+
+for(numl in l1:l2)
+  {
+url <- "http://78.142.45.23/dataup/MUSIC/Music-classical/Classics%2001/SCHUMANN,%20Robert%20-%20Symphonies%20No.%201%20&%20No.%202/"
+html <- paste(readLines(url), collapse="\n")
+library(stringr)
+matched <- str_match_all(html, "<a href=\"(.*?)\"")
+name <- matched[[c(1, numl)]]
+
+x <- c(url, name)
+enlace <- paste(x, collapse = "")
+named <- str_replace_all(name, "%20", " ")
+
+download.file(enlace, named, "auto", quiet = FALSE, mode = "wb", cacheOK = TRUE, extra = getOption("download.file.extra"))
+}
